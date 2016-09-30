@@ -1,4 +1,4 @@
 # tikape-villilansi
 
-Tietokantojen perusteet -kurssilla tehtävän web-sovellus.
+Tietokantojen perusteet -kurssilla tehtävä web-sovellus.
 
