@@ -12,7 +12,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Database database = new Database("jdbc:sqlite:palsta.db");
-        database.init();
 
         AlueDao alueDao = new AlueDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
