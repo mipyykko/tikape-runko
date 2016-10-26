@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import tikape.runko.database.collector.AlueCollector;
+import tikape.runko.database.collector.ViestiCollector;
 import tikape.runko.domain.Alue;
 
 /**
@@ -29,44 +31,28 @@ public class AlueDao implements Dao<Alue, Integer> {
 
     @Override
     public List<Alue> findAll() throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Alue");
-        
-        ResultSet rs = stmt.executeQuery();
+        List<Alue> alueet = database.queryAndCollect("SELECT * FROM Alue", new AlueCollector());
 
-        List<Alue> alueet = new ArrayList<>();
-
-        while (rs.next()) {
-            Alue alue = new Alue(rs.getInt("id"), rs.getString("nimi"));
-            PreparedStatement stmt2 = connection.prepareStatement("SELECT COUNT(*) AS viestimaara FROM Viesti WHERE alue_id = ?");
-            stmt2.setObject(1, alue.getId());
+        for (int i = 0; i < alueet.size(); i++) {
+            // näissä ei ole vielä tarkistusta nollan tuloksen tapauksissa!
+            Alue a = alueet.get(i);
+            int viestimaara = database.queryAndCollectInt("SELECT COUNT(*) AS viestimaara FROM Viesti WHERE alue_id = ?", new ViestiCollector(), a.getId()).get(0);
+            String uusinpvm = database.queryAndCollect("SELECT aika FROM Viesti WHERE alue_id = ? ORDER BY aika DESC LIMIT 1", new ViestiCollector(), a.getId()).get(0).getAika();
             
-            ResultSet rs2 = stmt2.executeQuery();
+            a.setViestimaara(viestimaara);
+            a.setUusinpvm(uusinpvm);
             
-            alue.setViestimaara(rs2.getInt("viestimaara"));
-            
-            stmt2 = connection.prepareStatement("SELECT aika FROM Viesti WHERE alue_id = ? ORDER BY aika DESC LIMIT 1");
-            stmt2.setObject(1, alue.getId());
-            
-            rs2 = stmt2.executeQuery();
-            
-            if (!rs2.next()) {
-                alue.setUusinpvm("ei viestejä");
-            } else {
-                alue.setUusinpvm(rs2.getString("aika"));
-            }
-            
-            stmt2.close();
-            
-            alueet.add(alue);
+            alueet.set(i, a);
         }
-        
-        stmt.close();
-        connection.close();
         
         return alueet;
     }
 
+    public void add(/* tähän parametreja */) throws SQLException {
+    // lisää alue
+    
+    }    
+    
     @Override
     public void delete(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
