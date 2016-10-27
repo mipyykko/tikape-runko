@@ -5,7 +5,7 @@ public class Alue {
     private Integer id;
     private String nimi;
     private Integer viestimaara;
-    private String uusinpvm;
+    private Viesti uusinviesti;
     
 
     public Alue(Integer id, String nimi) {
@@ -29,16 +29,16 @@ public class Alue {
         this.nimi = nimi;
     }
 
-    public String getUusinpvm() {
-        return uusinpvm;
+    public Viesti getUusinviesti() {
+        return uusinviesti;
     }
 
     public Integer getViestimaara() {
         return viestimaara;
     }
 
-    public void setUusinpvm(String uusinpvm) {
-        this.uusinpvm = uusinpvm;
+    public void setUusinviesti(Viesti uusinviesti) {
+        this.uusinviesti = uusinviesti;
     }
 
     public void setViestimaara(Integer viestimaara) {

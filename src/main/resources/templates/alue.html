@@ -5,7 +5,16 @@
         <meta charset="UTF-8" />
     </head>
     <body>
-        <div>TODO write content</div>
+        <span th:text="${alue.nimi}">alueen nimi</span>
         <!-- TODO alueen viestit, form -->
+        <table width="100%">
+            <tr th:each="viesti : ${viestit}">
+                <td th:text="${viesti.id}" width="5%">id</td>
+                <td width="60%">
+                    <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}|}" th:text="${viesti.otsikko}">otsikko</a></td>
+                <td th:text="${viesti.nimimerkki}" width="20%">nimimerkki</td>
+                <td th:text="${viesti.aika}" width="15">aika</td>
+            </tr>    
+        </table>
     </body>
 </html>

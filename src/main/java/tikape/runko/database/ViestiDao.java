@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tikape.runko.database.collector.ViestiCollector;
 import tikape.runko.domain.Viesti;
 
 /**
@@ -46,28 +47,21 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     }
     
     public List<Viesti> findTopic(Integer key) throws SQLException {
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti WHERE id = ? OR viittaus_id = ? ORDER BY aika ASC");
+        List<Viesti> viestit = new ArrayList<>();
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE id = ? OR viittaus_id = ? ORDER BY aika ASC", new ViestiCollector(), key, key);
         /* viestiketju ensimmäisen postauksen id:llä:
              haetaan kaikki viestit joiden id joko on etsittävä tai jonka viittaus_id on etsittävä
         */
         
-        stmt.setObject(1, key);
-        stmt.setObject(2, key);
-        
-        ResultSet rs = stmt.executeQuery();
-        
+        return viestit;
+    }
+    
+    public List<Viesti> findAlue(Integer key) throws SQLException {
         List<Viesti> viestit = new ArrayList<>();
-        while (rs.next()) {
-            viestit.add(new Viesti(rs.getInt("id"), rs.getString("otsikko"), rs.getString("sisalto"),
-                                   rs.getString("aika"), rs.getString("nimimerkki"), rs.getInt("alue_id"), 
-                                   rs.getInt("viittaus_id")));
-        }
-
-        stmt.close();
-        connection.close();
+        // mietin että toiminnallisuuden takia ketjun aloitusviestin viittausid on sama kuin itsensä eikä NULL myöhemmin
+        // ... mutta nyt näin vielä
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id IS NULL ORDER BY aika DESC", new ViestiCollector(), key);
         
-        // palauttaa viestiketjun
         return viestit;
     }
 }
