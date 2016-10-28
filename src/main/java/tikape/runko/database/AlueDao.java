@@ -25,9 +25,18 @@ public class AlueDao implements Dao<Alue, Integer> {
         this.database = database;
     }
     
+    /**
+     * Hakee yksittäisen alueen.
+     * 
+     * @param alueid Alueen id
+     * @return Haettu Alue, jos alueid:n muotoinen alue on olemassa tai null
+     * @throws SQLException
+     * @see Alue
+     * @see findAll
+     */
     @Override
-    public Alue findOne(Integer key) throws SQLException {
-        List<Alue> alueet = database.queryAndCollect("SELECT * FROM Alue WHERE id = ?", new AlueCollector(), key);
+    public Alue findOne(Integer alueid) throws SQLException {
+        List<Alue> alueet = database.queryAndCollect("SELECT * FROM Alue WHERE id = ?", new AlueCollector(), alueid);
         
         if (!alueet.isEmpty()) {
             return alueet.get(0);
@@ -36,6 +45,15 @@ public class AlueDao implements Dao<Alue, Integer> {
         }
     }
 
+    /**
+     * Hakee kaikki alueet.
+     * 
+     * @return List<Alue> kaikista alueista.
+     * @throws SQLException 
+     * @see Alue
+     * @see findOne
+     */
+    
     @Override
     public List<Alue> findAll() throws SQLException {
         List<Alue> alueet = database.queryAndCollect("SELECT * FROM Alue", new AlueCollector());
@@ -43,7 +61,8 @@ public class AlueDao implements Dao<Alue, Integer> {
         for (int i = 0; i < alueet.size(); i++) {
             Alue a = alueet.get(i);
             
-            List<Viesti> alueen_viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? ORDER BY aika DESC LIMIT 1", new ViestiCollector(), a.getId());
+            // Tässä haetaan siis joka alueen idn perusteella 
+            List<Viesti> alueen_viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? ORDER BY aika DESC", new ViestiCollector(), a.getId());
             a.setViestimaara(alueen_viestit.size());
 
             if (!alueen_viestit.isEmpty()) {

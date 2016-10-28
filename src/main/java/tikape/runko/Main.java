@@ -60,6 +60,7 @@ public class Main {
         get("/alue/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             Alue alue = alueDao.findOne(Integer.parseInt(req.params("id")));
+
             if (alue == null) {
                 res.redirect("/alueet");
             }

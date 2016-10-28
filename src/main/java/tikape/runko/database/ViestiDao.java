@@ -48,25 +48,24 @@ public class ViestiDao implements Dao<Viesti, Integer>{
       database.executeCommand("INSERT INTO Viesti (otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id) VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
     }
     
-    public List<Viesti> findTopic(Integer key) throws SQLException {
+    public List<Viesti> findTopic(Integer viittaus_id) throws SQLException {
         List<Viesti> viestit = new ArrayList<>();
-        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE viittaus_id = ? ORDER BY aika ASC", new ViestiCollector(), key);
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE viittaus_id = ? ORDER BY aika ASC", new ViestiCollector(), viittaus_id);
         /* muutettu niin että viestiketjun eka viittaa itseensä */
         
         return viestit;
     }
     
-    public List<Viesti> findAlue(Integer key) throws SQLException {
+    public List<Viesti> findAlue(Integer alueid) throws SQLException {
         List<Viesti> viestit = new ArrayList<>();
         // vaihdettu ketjun aloitusviestin viittaus itseensä
-        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id = id ORDER BY aika DESC", new ViestiCollector(), key);
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id = id ORDER BY aika DESC", new ViestiCollector(), alueid);
         // tän varmaan vois tehdä jotenkin järkevämmin mutta tällä viestiketjuun uusin viesti
         for (int i = 0; i < viestit.size(); i++) {
             Viesti viesti = viestit.get(i);
-            List<Viesti> uusin = database.queryAndCollect(
-                    "SELECT * FROM Viesti WHERE alue_id = ? and viittaus_id = ? ORDER BY aika DESC LIMIT 1", 
+            List<Viesti> uusin = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? and viittaus_id = ? ORDER BY aika DESC LIMIT 1", 
                     new ViestiCollector(), 
-                    key, viesti);
+                    alueid, viesti);
             if (!uusin.isEmpty()) {
                 viesti.setUusinviesti(uusin.get(0));
             } else {
