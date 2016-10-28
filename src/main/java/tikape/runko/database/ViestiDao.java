@@ -41,6 +41,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    // Toimiskohan --Leevi
     public void add(Integer id, String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
    
       database.executeCommand("INSERT INTO Viesti", id, otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);

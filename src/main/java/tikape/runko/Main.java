@@ -92,9 +92,8 @@ public class Main {
         post("/alue/:id/ketju/:ketjuid", (req, res) -> {
             int alueid = Integer.parseInt(req.params("id"));
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
-            
-            // tähän postaus 
-            // viestiDao.add
+                        
+            viestiDao.add(123, "asd", "asd", "asd", "asd", 321, 213);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";
