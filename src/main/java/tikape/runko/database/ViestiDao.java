@@ -58,9 +58,8 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     
     public List<Viesti> findAlue(Integer key) throws SQLException {
         List<Viesti> viestit = new ArrayList<>();
-        // mietin että toiminnallisuuden takia ketjun aloitusviestin viittausid on sama kuin itsensä eikä NULL myöhemmin
-        // ... mutta nyt näin vielä
-        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id IS NULL ORDER BY aika DESC", new ViestiCollector(), key);
+        // vaihdettu ketjun aloitusviestin viittaus itseensä
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id = id ORDER BY aika DESC", new ViestiCollector(), key);
         
         return viestit;
     }

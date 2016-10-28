@@ -19,18 +19,18 @@
         
         <p>Aloita uusi viestiketju</p>
         <form th:action="@{|~/alue/${alue.id}|}" th:object="${viestilomake}" method="post">
-            <span>
-                <input type="text" th:field="*{nimimerkki}" />
+            <p>
+                <input type="text" th:field="*{nimimerkki}" th:value="${viestilomake.nimimerkki}"/>
                 <span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>
-            </span>
-            <span>
+            </p>
+            <p>
                 <input type="text" th:field="*{otsikko}" />
                 <span th:if="${viestilomake.tarkistaOtsikko()}">Otsikko puuttuu!</span>
-            </span>
-            <span>
+            </p>
+            <p>
                 <textarea th:field="*{sisalto}" />
                 <span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>
-            </span>
+            </p>
             <input type="submit" />
         </form>
     </body>

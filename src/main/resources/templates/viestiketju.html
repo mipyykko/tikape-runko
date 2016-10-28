@@ -8,5 +8,15 @@
         <div>TODO write content</div>
         <!-- ankkurit viesti-id:n mukaan -->
         <!-- form -->
+        <h1 th:text="${otsikko}">otsikko</h1>
+        <table width="100%">
+            <tr th:each="viesti : ${viestit}">
+                <td width="0%"><a th:name="${viesti.id}"></a></td>
+                <td th:text="${viesti.nimimerkki}" width="10%">nimimerkki</td>
+                <td th:text="${viesti.aika}" width="10%">aika</td>
+                <td th:text="${viesti.sisalto}" width="75%">sisältö</td>
+            </tr>
+        </table>
+        
     </body>
 </html>

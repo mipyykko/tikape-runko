@@ -1,6 +1,7 @@
 package tikape.runko;
 
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -10,6 +11,7 @@ import tikape.runko.database.AlueDao;
 import tikape.runko.database.Database;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.Viesti;
 import tikape.runko.domain.Viestilomake;
 
 public class Main {
@@ -81,8 +83,9 @@ public class Main {
         
         get("/alue/:id/ketju/:ketjuid", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viestit", viestiDao.findTopic(Integer.parseInt(req.params("ketjuid"))));
-            
+            List<Viesti> viestit = viestiDao.findTopic(Integer.parseInt(req.params("ketjuid")));
+            map.put("viestit", viestit);
+            map.put("otsikko", viestit.get(0).getOtsikko());
             return new ModelAndView(map, "viestiketju");
         }, new ThymeleafTemplateEngine());
         
