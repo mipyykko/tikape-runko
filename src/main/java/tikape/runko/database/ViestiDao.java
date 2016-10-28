@@ -42,9 +42,10 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     }
     
     // Toimiskohan --Leevi
-    public void add(Integer id, String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
+    // values ja kysymysmerkit puuttuivat, id tulee automaattisesti tietokannasta
+    public void add(String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
    
-      database.executeCommand("INSERT INTO Viesti", id, otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
+      database.executeCommand("INSERT INTO Viesti VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
     }
     
     public List<Viesti> findTopic(Integer key) throws SQLException {
