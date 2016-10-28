@@ -75,7 +75,6 @@ public class Main {
         
         post("/alue/:id", (Request req, Response res) -> {
             int alueid = Integer.parseInt(req.params("id"));
-            System.out.println(req.queryParams());
             //viestilomake = req.queryParams("viestilomake");
             
             // en tiiä miten tän tyhjän lomakkeen tarkistuksen saa toimimaan :/
@@ -92,6 +91,9 @@ public class Main {
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
             int alueid = Integer.parseInt(req.params("alueid"));
             List<Viesti> viestit = viestiDao.findTopic(ketjuid);
+            if (viestit.isEmpty()) {
+                res.redirect("/alue/" + alueid);
+            }
             Alue alue = alueDao.findOne(alueid);
             map.put("viestit", viestit);
             
@@ -108,7 +110,7 @@ public class Main {
 
             String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             
-            viestiDao.add(req.params("otsikko"), req.params("sisalto"), aika, req.params("nimimerkki"), alueid, ketjuid);
+            viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, ketjuid);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";

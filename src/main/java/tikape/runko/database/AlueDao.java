@@ -61,7 +61,10 @@ public class AlueDao implements Dao<Alue, Integer> {
         for (int i = 0; i < alueet.size(); i++) {
             Alue a = alueet.get(i);
             
-            // Tässä haetaan siis joka alueen idn perusteella 
+            // Tässä haetaan siis joka alueen idn perusteella viestit, lasketaan määrä ja asetetaan
+            // se + uusin viesti että niihin voidaan viitata myöhemmin
+            //
+            // Kaikkien alueiden viestien haku on kyllä tosi höhlää tässä mutta.
             List<Viesti> alueen_viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? ORDER BY aika DESC", new ViestiCollector(), a.getId());
             a.setViestimaara(alueen_viestit.size());
 

@@ -19,14 +19,14 @@
         </table>
         
         <p>Vastaa viestiketjuun</p>
-        <form th:action="@{|~/alue/${alue.id}/ketju/${ketjuid}|}" th:object="${viestilomake}" method="post">
+        <form th:action="@{|~/alue/${alue.id}/ketju/${ketjuid}|}" method="post">
             <p>
-                <input type="text" th:field="*{nimimerkki}" th:value="${viestilomake.nimimerkki}"/>
-                <span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>
+                <input type="text" name="nimimerkki" />
+                <!--<span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>-->
             </p>
             <p>
-                <textarea th:field="*{sisalto}" />
-                <span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>
+                <textarea name="sisalto" />
+                <!--<span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>-->
             </p>
             <input type="submit" />
         </form>    
