@@ -75,15 +75,22 @@ public class Main {
         
         post("/alue/:id", (Request req, Response res) -> {
             int alueid = Integer.parseInt(req.params("id"));
-            //viestilomake = req.queryParams("viestilomake");
+            //int ketjuid = Integer.parseInt(req.params("ketjuid"));
+
+            String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            
+            // tossa lopussa on nyt 0 koska ei ole tiedossa uuden ketjun id:tä
+            
+            int ketjuid = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, 0);
+            viestiDao.modifyViittaus(ketjuid, ketjuid);
+            // tän pitäis nyt palauttaa se uus id ja ohjata oikeaan paikkaan
+            
+            res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
+            return "";            //viestilomake = req.queryParams("viestilomake");
             
             // en tiiä miten tän tyhjän lomakkeen tarkistuksen saa toimimaan :/
             
-            // uusi viestiketju 
-            // eli viestiDao.add
             
-            res.redirect("/alue/" + alueid);
-            return "";
         });
         
         get("/alue/:alueid/ketju/:ketjuid", (req, res) -> {
@@ -110,7 +117,7 @@ public class Main {
 
             String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             
-            viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, ketjuid);
+            int uusi_id = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, ketjuid);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";

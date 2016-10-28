@@ -43,9 +43,14 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     
     // Toimiskohan --Leevi
     // values ja kysymysmerkit puuttuivat, id tulee automaattisesti tietokannasta
-    public void add(String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
+    public int add(String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
    
-      database.executeCommand("INSERT INTO Viesti (otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id) VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
+      return database.executeCommand("INSERT INTO Viesti (otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id) VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
+    }
+    
+    // tää on aika kämäinen 
+    public void modifyViittaus(int id, int viittaus_id) throws SQLException {
+        database.executeCommand("UPDATE Viesti SET viittaus_id = ? WHERE id = ?", viittaus_id, id);
     }
     
     public List<Viesti> findTopic(Integer viittaus_id) throws SQLException {

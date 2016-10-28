@@ -77,18 +77,23 @@ public class Database {
         return returnList;
     }
     
-    public boolean executeCommand(String query, Object... params) throws SQLException {
+    public int executeCommand(String query, Object... params) throws SQLException {
         Connection connection = getConnection();
-        PreparedStatement stmt = connection.prepareStatement(query);
+        // tuon pitäisi palauttaa sitten uusin id
+        PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         for (int i = 0; i < params.length; i++) {
             stmt.setObject(i + 1, params[i]);
         }
         
-        Boolean ok = stmt.execute();
-        
+        stmt.executeUpdate();
+        ResultSet rs = stmt.getGeneratedKeys();
+        int uusin_id = 0;
+        if (rs.next()) {
+            uusin_id = rs.getInt(1);
+        }
         stmt.close();
         
-        return ok;
+        return uusin_id;
     }
     
     private List<String> postgreLauseet() {
