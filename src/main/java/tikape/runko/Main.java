@@ -93,7 +93,7 @@ public class Main {
             int alueid = Integer.parseInt(req.params("id"));
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
                         
-            viestiDao.add(123, "asd", "asd", "asd", "asd", 321, 213);
+            viestiDao.add(req.params("otsikko"), req.params("sisalto"), req.params("aika"), req.params("nimimerkki"), alueid, ketjuid);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";
