@@ -8,7 +8,7 @@
         <div>TODO write content</div>
         <!-- ankkurit viesti-id:n mukaan -->
         <!-- form -->
-        <h1 th:text="${otsikko}">otsikko</h1>
+        <h1 th:text="${alue.nimi}">alueen nimi</h1>
         <table width="100%">
             <tr th:each="viesti : ${viestit}">
                 <td width="0%"><a th:name="${viesti.id}"></a></td>
@@ -18,5 +18,17 @@
             </tr>
         </table>
         
+        <p>Vastaa viestiketjuun</p>
+        <form th:action="@{|~/alue/${alue.id}/ketju/${ketjuid}|}" th:object="${viestilomake}" method="post">
+            <p>
+                <input type="text" th:field="*{nimimerkki}" th:value="${viestilomake.nimimerkki}"/>
+                <span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>
+            </p>
+            <p>
+                <textarea th:field="*{sisalto}" />
+                <span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>
+            </p>
+            <input type="submit" />
+        </form>    
     </body>
 </html>

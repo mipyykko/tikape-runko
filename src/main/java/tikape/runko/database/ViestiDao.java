@@ -45,7 +45,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     // values ja kysymysmerkit puuttuivat, id tulee automaattisesti tietokannasta
     public void add(String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) throws SQLException {
    
-      database.executeCommand("INSERT INTO Viesti VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
+      database.executeCommand("INSERT INTO Viesti (otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id) VALUES (?, ?, ?, ?, ?, ?)", otsikko, sisalto, aika, nimimerkki, alue_id, viittaus_id);
     }
     
     public List<Viesti> findTopic(Integer key) throws SQLException {
@@ -70,7 +70,8 @@ public class ViestiDao implements Dao<Viesti, Integer>{
             if (!uusin.isEmpty()) {
                 viesti.setUusinviesti(uusin.get(0));
             } else {
-                viesti.setUusinviesti(viesti);
+                // olkoon sitten null
+                //viesti.setUusinviesti(viesti);
             }
             viestit.set(i, viesti);
         }

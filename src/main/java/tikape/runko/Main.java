@@ -81,11 +81,18 @@ public class Main {
             return "";
         });
         
-        get("/alue/:id/ketju/:ketjuid", (req, res) -> {
+        get("/alue/:alueid/ketju/:ketjuid", (req, res) -> {
             HashMap map = new HashMap<>();
-            List<Viesti> viestit = viestiDao.findTopic(Integer.parseInt(req.params("ketjuid")));
+            int ketjuid = Integer.parseInt(req.params("ketjuid"));
+            int alueid = Integer.parseInt(req.params("alueid"));
+            List<Viesti> viestit = viestiDao.findTopic(ketjuid);
+            Alue alue = alueDao.findOne(alueid);
             map.put("viestit", viestit);
-            map.put("otsikko", viestit.get(0).getOtsikko());
+            
+            map.put("alue", alue);
+            map.put("ketjuid", ketjuid);
+            map.put("viestilomake", viestilomake);
+            
             return new ModelAndView(map, "viestiketju");
         }, new ThymeleafTemplateEngine());
         
@@ -93,7 +100,7 @@ public class Main {
             int alueid = Integer.parseInt(req.params("id"));
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
                         
-            viestiDao.add(123, "asd", "asd", "asd", "asd", 321, 213);
+            viestiDao.add("asd", "asd", "asd", "asd", 1, 1);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";

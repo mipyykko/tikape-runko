@@ -15,10 +15,10 @@
                 </td>
                 <td th:text="${alue.viestimaara}" width="5%">3</td>
                 <td width="20%">
-                <span th:if="${alue.uusinviesti}">
-                    <a th:href="@{|~/ketju/${alue.uusinviesti.viittaus_id}#${alue.uusinviesti.id}|}" th:text="${alue.uusinviesti.aika}">linkki</a>
-                </span>
-                <span th:unless="${alue.uusinviesti}">ei viestejä</span>
+                    <span th:if="${alue.uusinviesti}">
+                        <a th:href="@{|~/alue/${alue.id}/ketju/${alue.uusinviesti.viittaus_id}#${alue.uusinviesti.id}|}" th:text="${alue.uusinviesti.aika}">linkki</a>
+                    </span>
+                    <span th:unless="${alue.uusinviesti}">ei viestejä</span>
                 </td>
             </tr>
         </table>
