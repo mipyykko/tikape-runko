@@ -1,7 +1,11 @@
 package tikape.runko;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -32,6 +36,7 @@ public class Main {
         if (System.getenv("DATABASE_URL") != null) {
             jdbcOsoite = System.getenv("DATABASE_URL");
         } 
+        
         
         Database database = new Database(jdbcOsoite);
 
@@ -99,8 +104,10 @@ public class Main {
         post("/alue/:id/ketju/:ketjuid", (req, res) -> {
             int alueid = Integer.parseInt(req.params("id"));
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
-                        
-            viestiDao.add("asd", "asd", "asd", "asd", 1, 1);
+
+            String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            
+            viestiDao.add(req.params("otsikko"), req.params("sisalto"), aika, req.params("nimimerkki"), alueid, ketjuid);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";
