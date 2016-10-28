@@ -86,7 +86,6 @@ public class Database {
         
         Boolean ok = stmt.execute();
         
-        rs.close();
         stmt.close();
         
         return ok;
