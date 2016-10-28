@@ -70,6 +70,7 @@ public class Main {
             System.out.println(req.queryParams());
             //viestilomake = req.queryParams("viestilomake");
             
+            // en tiiä miten tän tyhjän lomakkeen tarkistuksen saa toimimaan :/
             
             // uusi viestiketju 
             // eli viestiDao.add
