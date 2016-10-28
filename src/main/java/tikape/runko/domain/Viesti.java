@@ -9,7 +9,8 @@ public class Viesti {
     private String nimimerkki;
     private Integer alue_id;
     private Integer viittaus_id;
-
+    private Viesti uusinviesti;
+    
     public Viesti(Integer id, String otsikko, String sisalto, String aika, String nimimerkki, Integer alue_id, Integer viittaus_id) {
         this.id = id;
         this.otsikko = otsikko;
@@ -18,6 +19,7 @@ public class Viesti {
         this.nimimerkki = nimimerkki;
         this.alue_id = alue_id;
         this.viittaus_id = viittaus_id;
+        this.uusinviesti = null;
     }
 
     public String getAika() {
@@ -74,6 +76,14 @@ public class Viesti {
 
     public void setViittaus_id(Integer viittaus_id) {
         this.viittaus_id = viittaus_id;
+    }
+
+    public Viesti getUusinviesti() {
+        return uusinviesti;
+    }
+
+    public void setUusinviesti(Viesti uusinviesti) {
+        this.uusinviesti = uusinviesti;
     }
     
     

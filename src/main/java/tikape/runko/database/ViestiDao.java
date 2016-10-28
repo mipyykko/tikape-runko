@@ -48,10 +48,8 @@ public class ViestiDao implements Dao<Viesti, Integer>{
     
     public List<Viesti> findTopic(Integer key) throws SQLException {
         List<Viesti> viestit = new ArrayList<>();
-        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE id = ? OR viittaus_id = ? ORDER BY aika ASC", new ViestiCollector(), key, key);
-        /* viestiketju ensimmäisen postauksen id:llä:
-             haetaan kaikki viestit joiden id joko on etsittävä tai jonka viittaus_id on etsittävä
-        */
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE viittaus_id = ? ORDER BY aika ASC", new ViestiCollector(), key);
+        /* muutettu niin että viestiketjun eka viittaa itseensä */
         
         return viestit;
     }
@@ -60,7 +58,27 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         List<Viesti> viestit = new ArrayList<>();
         // vaihdettu ketjun aloitusviestin viittaus itseensä
         viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id = id ORDER BY aika DESC", new ViestiCollector(), key);
-        
+        // tän varmaan vois tehdä jotenkin järkevämmin mutta tällä viestiketjuun uusin viesti
+        for (int i = 0; i < viestit.size(); i++) {
+            Viesti viesti = viestit.get(i);
+            List<Viesti> uusin = database.queryAndCollect(
+                    "SELECT * FROM Viesti WHERE alue_id = ? and viittaus_id = ? ORDER BY aika DESC LIMIT 1", 
+                    new ViestiCollector(), 
+                    key, viesti);
+            if (!uusin.isEmpty()) {
+                viesti.setUusinviesti(uusin.get(0));
+            } else {
+                viesti.setUusinviesti(viesti);
+            }
+            viestit.set(i, viesti);
+        }
+        return viestit;
+    }
+    
+    public List<Viesti> findNewestFromTopic(Integer alue_id, Integer viittaus_id) throws SQLException {
+        List<Viesti> viestit = new ArrayList<>();
+        viestit = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? AND viittaus_id = ? ORDER BY aika DESC", new ViestiCollector(), alue_id, viittaus_id);
+    
         return viestit;
     }
 }

@@ -58,10 +58,10 @@ public class Main {
             if (alue == null) {
                 res.redirect("/alueet");
             }
-            map.put("alue", alue);
+            List<Viesti> viestit = viestiDao.findAlue(Integer.parseInt(req.params("id")));
             
-            map.put("viestit", viestiDao.findAlue(Integer.parseInt(req.params("id"))));
-
+            map.put("alue", alue);
+            map.put("viestit", viestit);
             map.put("viestilomake", viestilomake);
             
             return new ModelAndView(map, "alue");
