@@ -77,6 +77,21 @@ public class Database {
         return returnList;
     }
     
+    public boolean executeCommand(String query, Object... params) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement stmt = connection.prepareStatement(query);
+        for (int i = 0; i < params.length; i++) {
+            stmt.setObject(i + 1, params[i]);
+        }
+        
+        Boolean ok = stmt.execute();
+        
+        rs.close();
+        stmt.close();
+        
+        return ok;
+    }
+    
     private List<String> postgreLauseet() {
         ArrayList<String> lista = new ArrayList<>();
 
