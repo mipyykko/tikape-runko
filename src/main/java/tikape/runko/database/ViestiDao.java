@@ -70,7 +70,7 @@ public class ViestiDao implements Dao<Viesti, Integer>{
             Viesti viesti = viestit.get(i);
             List<Viesti> uusin = database.queryAndCollect("SELECT * FROM Viesti WHERE alue_id = ? and viittaus_id = ? ORDER BY aika DESC LIMIT 1", 
                     new ViestiCollector(), 
-                    alueid, viesti);
+                    alueid, viesti.getId());
             if (!uusin.isEmpty()) {
                 viesti.setUusinviesti(uusin.get(0));
             } else {
