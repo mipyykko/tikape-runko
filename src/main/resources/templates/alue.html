@@ -10,16 +10,18 @@
         <!-- TODO form -->
         <table width="100%">
             <tr>
-                <td width="5%">ID</td>
+                <td width="2%">ID</td>
                 <td width="60%">Keskustelu</td>
                 <td width="20%">Nimimerkki</td>
+                <td width="3%">Vastauksia</td>
                 <td width="15%">Uusin Vastaus</td>>
             </tr>
             <tr th:each="viesti : ${viestit}">
-                <td th:text="${viesti.id}" width="5%">id</td>
+                <td th:text="${viesti.id}" width="2%">id</td>
                 <td width="60%">
                     <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}|}" th:text="${viesti.otsikko}">otsikko</a></td>
                 <td th:text="${viesti.nimimerkki}" width="20%">nimimerkki</td>
+                <td th:text="${viestimaara}" width="20%">viestimäärä</td>
                 <td width="15%">
                     <span th:if="${viesti.uusinviesti}">
                         <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}#${viesti.uusinviesti.id}|}" 

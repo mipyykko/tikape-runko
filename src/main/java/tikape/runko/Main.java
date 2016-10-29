@@ -103,7 +103,7 @@ public class Main {
             }
             Alue alue = alueDao.findOne(alueid);
             map.put("viestit", viestit);
-            
+            map.put("viestimaara", viestit.size());
             map.put("alue", alue);
             map.put("ketjuid", ketjuid);
             map.put("viestilomake", viestilomake);
