@@ -14,14 +14,14 @@
                 <td width="60%">Keskustelu</td>
                 <td width="20%">Nimimerkki</td>
                 <td width="3%">Vastauksia</td>
-                <td width="15%">Uusin Vastaus</td>>
+                <td width="15%">Uusin vastaus</td>>
             </tr>
             <tr th:each="viestiketju : ${viestit}">
                 <td th:text="${viestiketju.id}" width="2%">id</td>
                 <td width="60%">
                     <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}|}" th:text="${viestiketju.otsikko}">otsikko</a></td>
                 <td th:text="${viestiketju.nimimerkki}" width="20%">nimimerkki</td>
-                <td th:text="${viestimaara}" width="20%">viestimäärä</td>
+                <td th:text="${viestiketju.viestimaara}" width="20%">viestimäärä</td>
                 <td width="15%">
                     <span th:if="${viestiketju.uusinviesti}">
                         <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}#${viestiketju.uusinviesti.id}|}" 

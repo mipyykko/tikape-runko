@@ -16,7 +16,6 @@ import tikape.runko.database.Database;
 import tikape.runko.database.ViestiDao;
 import tikape.runko.domain.Alue;
 import tikape.runko.domain.Viesti;
-import tikape.runko.domain.Viestilomake;
 
 public class Main {
 
@@ -42,7 +41,6 @@ public class Main {
 
         AlueDao alueDao = new AlueDao(database);
         ViestiDao viestiDao = new ViestiDao(database);
-        Viestilomake viestilomake = new Viestilomake("", "", "");
         
         get("/", (req, res) -> {
             res.redirect("/alueet");
@@ -64,11 +62,16 @@ public class Main {
             if (alue == null) {
                 res.redirect("/alueet");
             }
+            
             List<Viesti> viestit = viestiDao.findAlue(Integer.parseInt(req.params("id")));
+            for (int i = 0; i < viestit.size(); i++) {
+                Viesti viestiketju = viestit.get(i);
+                viestiketju.setViestimaara(viestiDao.findMessageCountInTopic(viestiketju.getId()));
+                viestit.set(i, viestiketju);
+            }
             
             map.put("alue", alue);
             map.put("viestit", viestit);
-            map.put("viestilomake", viestilomake);
             
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
@@ -98,16 +101,14 @@ public class Main {
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
             int alueid = Integer.parseInt(req.params("alueid"));
             List<Viesti> viestit = viestiDao.findTopic(ketjuid);
-            int viestimaara = viestiDao.findMessageCountInTopic(ketjuid);
+
             if (viestit.isEmpty()) {
                 res.redirect("/alue/" + alueid);
             }
             Alue alue = alueDao.findOne(alueid);
             map.put("viestit", viestit);
-            map.put("viestimaara", viestimaara);
             map.put("alue", alue);
             map.put("ketjuid", ketjuid);
-            map.put("viestilomake", viestilomake);
             
             return new ModelAndView(map, "viestiketju");
         }, new ThymeleafTemplateEngine());
