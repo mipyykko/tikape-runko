@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import org.jsoup.Jsoup;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -83,17 +84,16 @@ public class Main {
             String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             
             // tossa lopussa on nyt 1 koska ei ole tiedossa uuden ketjun id:tä
+            String otsikko = siivoaHTML(req.queryParams("otsikko"));
+            String sisalto = siivoaHTML(req.queryParams("sisalto"));
+            String nimimerkki = siivoaHTML(req.queryParams("nimimerkki"));
             
-            int ketjuid = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, 1);
+            int ketjuid = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, 1);
             viestiDao.modifyViittaus(ketjuid, ketjuid);
             // tän pitäis nyt palauttaa se uus id ja ohjata oikeaan paikkaan
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
-            return "";            //viestilomake = req.queryParams("viestilomake");
-            
-            // en tiiä miten tän tyhjän lomakkeen tarkistuksen saa toimimaan :/
-            
-            
+            return "";            
         });
         
         get("/alue/:alueid/ketju/:ketjuid", (req, res) -> {
@@ -119,7 +119,11 @@ public class Main {
 
             String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             
-            int uusi_id = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, ketjuid);
+            String otsikko = siivoaHTML(req.queryParams("otsikko"));
+            String sisalto = siivoaHTML(req.queryParams("sisalto"));
+            String nimimerkki = siivoaHTML(req.queryParams("nimimerkki"));
+            
+            int uusi_id = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, ketjuid);
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";
@@ -130,7 +134,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         post("/alueet/uusi", (req, res) -> {
-            String nimi = req.queryParams("nimi");
+            String nimi = siivoaHTML(req.queryParams("nimi"));
             if (!nimi.isEmpty()) {
                 alueDao.add(nimi);
             }
@@ -138,5 +142,9 @@ public class Main {
             res.redirect("/alueet");
             return "";
         });
+    }
+    
+    private static String siivoaHTML(String teksti) {
+        return Jsoup.parse(teksti).text();
     }
 }
