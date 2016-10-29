@@ -1,14 +1,14 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Joku keskustelu</title>
+        <title th:text="${viesti.sisalto}">sisältö</title>
         <meta charset="UTF-8" />
     </head>
     <body>
-        <div><font size="7">Villi Länsi</font></div>
+        <a href="/"><div><font size="7">Villi Länsi</font></div></a>
         <!-- ankkurit viesti-id:n mukaan -->
         <!-- form -->
-        <font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font>
+        <a th:href="@{|~/alue/${alue.id}|}"><font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font></a>
         <table width="100%">
             <tr>
                 <td width="5%">ID</td>
@@ -24,14 +24,14 @@
             </tr>
         </table>
         
-        <p>Vastaa viestiketjuun</p>
+        <p>Vastaa keskusteluun:</p>
         <form th:action="@{|~/alue/${alue.id}/ketju/${ketjuid}|}" method="post">
             <p>
-                <input type="text" name="nimimerkki" />
+                <input type="text" name="nimimerkki" placeholder="Nimimerkki"/>
                 <!--<span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>-->
             </p>
             <p>
-                <textarea name="sisalto" />
+                <textarea name="sisalto" placeholder="Viesti"/>
                 <!--<span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>-->
             </p>
             <input type="submit" />
