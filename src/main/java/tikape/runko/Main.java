@@ -98,12 +98,13 @@ public class Main {
             int ketjuid = Integer.parseInt(req.params("ketjuid"));
             int alueid = Integer.parseInt(req.params("alueid"));
             List<Viesti> viestit = viestiDao.findTopic(ketjuid);
+            int viestimaara = viestiDao.findMessageCountInTopic(ketjuid);
             if (viestit.isEmpty()) {
                 res.redirect("/alue/" + alueid);
             }
             Alue alue = alueDao.findOne(alueid);
             map.put("viestit", viestit);
-            map.put("viestimaara", viestit.size());
+            map.put("viestimaara", viestimaara);
             map.put("alue", alue);
             map.put("ketjuid", ketjuid);
             map.put("viestilomake", viestilomake);

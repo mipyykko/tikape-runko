@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tikape.runko.database.collector.IntegerCollector;
 import tikape.runko.database.collector.ViestiCollector;
 import tikape.runko.domain.Viesti;
 
@@ -59,6 +60,17 @@ public class ViestiDao implements Dao<Viesti, Integer>{
         /* muutettu niin että viestiketjun eka viittaa itseensä */
         
         return viestit;
+    }
+    
+    public Integer findMessageCountInTopic(Integer viittaus_id) throws SQLException {
+        List<Integer> tmp = new ArrayList<>();
+        tmp = database.queryAndCollect("SELECT COUNT(*) FROM Viesti WHERE viittaus_id = ?", new IntegerCollector(), viittaus_id);
+        
+        if (!tmp.isEmpty()) {
+            return tmp.get(0);
+        } else {
+            return 0;
+        }
     }
     
     public List<Viesti> findAlue(Integer alueid) throws SQLException {

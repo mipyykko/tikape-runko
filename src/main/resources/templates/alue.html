@@ -16,20 +16,20 @@
                 <td width="3%">Vastauksia</td>
                 <td width="15%">Uusin Vastaus</td>>
             </tr>
-            <tr th:each="viesti : ${viestit}">
-                <td th:text="${viesti.id}" width="2%">id</td>
+            <tr th:each="viestiketju : ${viestit}">
+                <td th:text="${viestiketju.id}" width="2%">id</td>
                 <td width="60%">
-                    <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}|}" th:text="${viesti.otsikko}">otsikko</a></td>
-                <td th:text="${viesti.nimimerkki}" width="20%">nimimerkki</td>
+                    <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}|}" th:text="${viestiketju.otsikko}">otsikko</a></td>
+                <td th:text="${viestiketju.nimimerkki}" width="20%">nimimerkki</td>
                 <td th:text="${viestimaara}" width="20%">viestimäärä</td>
                 <td width="15%">
-                    <span th:if="${viesti.uusinviesti}">
-                        <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}#${viesti.uusinviesti.id}|}" 
-                            th:text="${viesti.uusinviesti.aika}">uusin viesti</a>
+                    <span th:if="${viestiketju.uusinviesti}">
+                        <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}#${viestiketju.uusinviesti.id}|}" 
+                            th:text="${viestiketju.uusinviesti.aika}">uusin viesti</a>
                     </span>
-                    <span th:unless="${viesti.uusinviesti}">
-                        <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}#${viesti.id}|}" 
-                            th:text="${viesti.aika}">uusin viesti = avausviesti</a>
+                    <span th:unless="${viestiketju.uusinviesti}">
+                        <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}#${viestiketju.id}|}" 
+                            th:text="${viestiketju.aika}">uusin viesti = avausviesti</a>
                     </span>
                 </td>
             </tr>    
