@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AlueDao;
@@ -20,10 +21,7 @@ import tikape.runko.domain.Viesti;
 
 public class Main {
 
-    /* TODO:
-    
-        
-    */
+
     public static void main(String[] args) throws Exception {
         // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
         if (System.getenv("PORT") != null) {
@@ -37,7 +35,7 @@ public class Main {
             jdbcOsoite = System.getenv("DATABASE_URL");
         } 
         
-        
+                
         Database database = new Database(jdbcOsoite);
 
         AlueDao alueDao = new AlueDao(database);
@@ -88,11 +86,14 @@ public class Main {
             String sisalto = siivoaHTML(req.queryParams("sisalto"));
             String nimimerkki = siivoaHTML(req.queryParams("nimimerkki"));
             
-            int ketjuid = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, 1);
-            viestiDao.modifyViittaus(ketjuid, ketjuid);
-            // tän pitäis nyt palauttaa se uus id ja ohjata oikeaan paikkaan
+            if (!otsikko.isEmpty() && !sisalto.isEmpty() && !nimimerkki.isEmpty()) {
+                int ketjuid = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, 1);
+                viestiDao.modifyViittaus(ketjuid, ketjuid);
+                res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
+            } else {
+                res.redirect("/alue/" + alueid);
+            }
             
-            res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";            
         });
         
