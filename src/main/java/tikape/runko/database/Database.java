@@ -136,7 +136,7 @@ public class Database {
                   " aika DATETIME(64) NOT NULL, " +
                   " alue_id INTEGER NOT NULL, " +
                   " nimimerkki varchar(32) NOT NULL, " +
-                  " viittaus_id INTEGER DEFAULT 'null', " +
+                  " viittaus_id INTEGER, " +
                   "FOREIGN KEY(alue_id) REFERENCES Alue(id), " +
                   "FOREIGN KEY(viittaus_id) REFERENCES Viesti(id));");
 

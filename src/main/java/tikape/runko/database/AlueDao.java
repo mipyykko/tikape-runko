@@ -78,9 +78,8 @@ public class AlueDao implements Dao<Alue, Integer> {
         return alueet;
     }
 
-    public void add(/* tähän parametreja */) throws SQLException {
-    // lisää alue
-    
+    public void add(String nimi) throws SQLException {
+        database.executeCommand("INSERT INTO Alue (nimi) VALUES (?)", nimi);
     }    
     
     @Override

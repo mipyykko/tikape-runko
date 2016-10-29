@@ -6,18 +6,17 @@
     </head>
     <body>
         <a href="/"><div><font size="7">Villi Länsi</font></div></a>
-        <a th:href="@{|~/alue/${alue.id}|}"><font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font></a>
-        <!-- TODO form -->
+        <a th:href="@{|~/alue/${alue.id}|}"><span th:text="${alue.nimi}">alueen nimi/div></span></a>
         <table width="100%">
             <tr>
-                <td width="2%">ID</td>
-                <td width="60%">Keskustelu</td>
-                <td width="20%">Nimimerkki</td>
-                <td width="3%">Vastauksia</td>
-                <td width="15%">Uusin vastaus</td>>
+                <!--<td width="2%">ID</td>-->
+                <th width="50%">Keskustelu</th>
+                <th width="20%">Nimimerkki</th>
+                <th width="5%">Vastauksia</th>
+                <th width="15%">Uusin vastaus</th>>
             </tr>
             <tr th:each="viestiketju : ${viestit}">
-                <td th:text="${viestiketju.id}" width="2%">id</td>
+                <!--<td th:text="${viestiketju.id}" width="2%">id</td>-->
                 <td width="60%">
                     <a th:href="@{|~/alue/${alue.id}/ketju/${viestiketju.id}|}" th:text="${viestiketju.otsikko}">otsikko</a></td>
                 <td th:text="${viestiketju.nimimerkki}" width="20%">nimimerkki</td>

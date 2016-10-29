@@ -125,5 +125,18 @@ public class Main {
             return "";
         });
         
+        get("/alueet/uusi", (req, res) -> {
+            return new ModelAndView(new HashMap<>(), "uusialue");
+        }, new ThymeleafTemplateEngine());
+        
+        post("/alueet/uusi", (req, res) -> {
+            String nimi = req.queryParams("nimi");
+            if (!nimi.isEmpty()) {
+                alueDao.add(nimi);
+            }
+            
+            res.redirect("/alueet");
+            return "";
+        });
     }
 }
