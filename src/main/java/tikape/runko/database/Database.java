@@ -11,6 +11,8 @@ public class Database {
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
+        
+        init();
     }
 
     public Connection getConnection() throws SQLException {
@@ -100,14 +102,17 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("CREATE TABLE Viesti " +
-                  "(id SERIAL PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+        lista.add("CREATE TABLE Alue "
+                + "(id SERIAL PRIMARY KEY NOT NULL,"
+                + " nimi varchar(255));"
+                + "CREATE TABLE Viesti " +
+                  "(id SERIAL PRIMARY KEY NOT NULL, " +
                   " otsikko varchar(128), " +
                   " sisalto varchar(16384) NOT NULL, " +
-                  " aika DATETIME(64) NOT NULL, " +
+                  " aika varchar(64) NOT NULL, " +
                   " alue_id INTEGER NOT NULL, " +
                   " nimimerkki varchar(32) NOT NULL, " +
-                  " viittaus_id INTEGER DEFAULT 'null', " +
+                  " viittaus_id INTEGER, " +
                   "FOREIGN KEY(alue_id) REFERENCES Alue(id), " +
                   "FOREIGN KEY(viittaus_id) REFERENCES Viesti(id));");
 
@@ -118,7 +123,10 @@ public class Database {
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("CREATE TABLE Viesti " +
+        lista.add("CREATE TABLE Alue "
+                + "(id integer PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                + " nimi varchar(255));" +
+                "CREATE TABLE Viesti " +
                   "(id integer PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                   " otsikko varchar(128), " +
                   " sisalto varchar(16384) NOT NULL, " +

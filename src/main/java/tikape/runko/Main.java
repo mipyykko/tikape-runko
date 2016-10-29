@@ -79,9 +79,9 @@ public class Main {
 
             String aika = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             
-            // tossa lopussa on nyt 0 koska ei ole tiedossa uuden ketjun id:tä
+            // tossa lopussa on nyt 1 koska ei ole tiedossa uuden ketjun id:tä
             
-            int ketjuid = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, 0);
+            int ketjuid = viestiDao.add(req.queryParams("otsikko"), req.queryParams("sisalto"), aika, req.queryParams("nimimerkki"), alueid, 1);
             viestiDao.modifyViittaus(ketjuid, ketjuid);
             // tän pitäis nyt palauttaa se uus id ja ohjata oikeaan paikkaan
             
