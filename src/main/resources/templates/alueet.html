@@ -1,20 +1,25 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>Tervetuloa Villiin Länteen!</title>
         <meta charset="utf-8" />
     </head>
     <body>
-        <div>TODO write content</div>
-        
+        <div><font size="7">Villi Länsi</font></div>
         <table width="100%">
+            <tr>
+                <td width="5%">ID</td>
+                <td width="45%">Aihealue</td>
+                <td width="5%">Viestit</td>
+                <td width="45%">Viimeisin Viesti</td>
+            </tr>
             <tr th:each="alue : ${alueet}">
                 <td th:text="${alue.id}" width="5%">1</td>
-                <td width="70%">
+                <td width="45%">
                     <a th:href="@{|~/alue/${alue.id}|}" th:text="${alue.nimi}">alueen nimi</a>
                 </td>
                 <td th:text="${alue.viestimaara}" width="5%">3</td>
-                <td width="20%">
+                <td width="45%">
                     <span th:if="${alue.uusinviesti}">
                         <a th:href="@{|~/alue/${alue.id}/ketju/${alue.uusinviesti.viittaus_id}#${alue.uusinviesti.id}|}" th:text="${alue.uusinviesti.aika}">linkki</a>
                     </span>

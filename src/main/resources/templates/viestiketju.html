@@ -1,20 +1,26 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title>Joku keskustelu</title>
         <meta charset="UTF-8" />
     </head>
     <body>
-        <div>TODO write content</div>
+        <div><font size="7">Villi Länsi</font></div>
         <!-- ankkurit viesti-id:n mukaan -->
         <!-- form -->
-        <h1 th:text="${alue.nimi}">alueen nimi</h1>
+        <font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font>
         <table width="100%">
+            <tr>
+                <td width="5%">ID</td>
+                <td width="20%">Nimimerkki</td>
+                <td width="15%">Lähetysaika</td>
+                <td width="60%">Kukaan ei välitä tästä</td>
+            </tr>
             <tr th:each="viesti : ${viestit}">
-                <td width="0%"><a th:name="${viesti.id}"></a></td>
-                <td th:text="${viesti.nimimerkki}" width="10%">nimimerkki</td>
-                <td th:text="${viesti.aika}" width="10%">aika</td>
-                <td th:text="${viesti.sisalto}" width="75%">sisältö</td>
+                <td width="5%" th:text="${viesti.id}">id</td>
+                <td th:text="${viesti.nimimerkki}" width="20%">nimimerkki</td>
+                <td th:text="${viesti.aika}" width="15%">aika</td>
+                <td th:text="${viesti.sisalto}" width="60%">sisältö</td>
             </tr>
         </table>
         

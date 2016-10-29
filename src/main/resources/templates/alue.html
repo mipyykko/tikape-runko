@@ -1,19 +1,26 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TODO supply a title</title>
+        <title th:text="${alue.nimi}">alueen nimi</title>
         <meta charset="UTF-8" />
     </head>
     <body>
-        <span th:text="${alue.nimi}">alueen nimi</span>
+        <div><font size="7">Villi Länsi</font></div>
+        <font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font>
         <!-- TODO form -->
         <table width="100%">
+            <tr>
+                <td width="5%">ID</td>
+                <td width="60%">Keskustelu</td>
+                <td width="20%">Nimimerkki</td>
+                <td width="15%">Uusin Vastaus</td>>
+            </tr>
             <tr th:each="viesti : ${viestit}">
                 <td th:text="${viesti.id}" width="5%">id</td>
                 <td width="60%">
                     <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}|}" th:text="${viesti.otsikko}">otsikko</a></td>
                 <td th:text="${viesti.nimimerkki}" width="20%">nimimerkki</td>
-                <td width="15">
+                <td width="15%">
                     <span th:if="${viesti.uusinviesti}">
                         <a th:href="@{|~/alue/${alue.id}/ketju/${viesti.id}#${viesti.uusinviesti.id}|}" 
                             th:text="${viesti.uusinviesti.aika}">uusin viesti</a>
