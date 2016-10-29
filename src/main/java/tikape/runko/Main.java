@@ -123,7 +123,9 @@ public class Main {
             String sisalto = siivoaHTML(req.queryParams("sisalto"));
             String nimimerkki = siivoaHTML(req.queryParams("nimimerkki"));
             
-            int uusi_id = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, ketjuid);
+            if (!otsikko.isEmpty() && !sisalto.isEmpty() && !nimimerkki.isEmpty()) {
+                int uusi_id = viestiDao.add(otsikko, sisalto, aika, nimimerkki, alueid, ketjuid);
+            }
             
             res.redirect("/alue/" + alueid + "/ketju/" + ketjuid);
             return "";
@@ -145,6 +147,6 @@ public class Main {
     }
     
     private static String siivoaHTML(String teksti) {
-        return Jsoup.parse(teksti).text();
+        return (teksti == null || teksti.isEmpty()) ? "" : Jsoup.parse(teksti).text();
     }
 }
