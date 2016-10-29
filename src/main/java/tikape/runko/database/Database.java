@@ -75,6 +75,7 @@ public class Database {
         
         rs.close();
         stmt.close();
+        connection.close();
         
         return returnList;
     }
@@ -93,7 +94,9 @@ public class Database {
         if (rs.next()) {
             uusin_id = rs.getInt(1);
         }
+        rs.close();
         stmt.close();
+        connection.close();
         
         return uusin_id;
     }
