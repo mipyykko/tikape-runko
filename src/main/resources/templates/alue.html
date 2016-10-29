@@ -5,8 +5,8 @@
         <meta charset="UTF-8" />
     </head>
     <body>
-        <div><font size="7">Villi Länsi</font></div>
-        <font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font>
+        <a href="/"><div><font size="7">Villi Länsi</font></div></a>
+        <a th:href="@{|~/alue/${alue.id}|}"><font size="5"><div th:text="${alue.nimi}">alueen nimi</div></font></a>
         <!-- TODO form -->
         <table width="100%">
             <tr>
@@ -33,18 +33,18 @@
             </tr>    
         </table>
         
-        <p>Aloita uusi viestiketju</p>
+        <p>Aloita uusi keskustelu:</p>
         <form th:action="@{|~/alue/${alue.id}|}" method="post">
             <p>
-                <input type="text" name="nimimerkki"/>
+                <input type="text" name="nimimerkki" placeholder="Nimimerkki"/>
                 <!--<span th:if="${viestilomake.tarkistaNimimerkki()}">Nimimerkki puuttuu!</span>-->
             </p>
             <p>
-                <input type="text" name="otsikko"/>
+                <input type="text" name="otsikko" placeholder="Otsikko"/>
                 <!--<span th:if="${viestilomake.tarkistaOtsikko()}">Otsikko puuttuu!</span>-->
             </p>
             <p>
-                <textarea name="sisalto" />
+                <textarea name="sisalto" placeholder="Viesti"/>
                 <!--<span th:if="${viestilomake.tarkistaSisalto()}">Viesti puuttuu!</span>-->
             </p>
             <input type="submit" />
